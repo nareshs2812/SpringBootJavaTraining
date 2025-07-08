@@ -1,0 +1,5 @@
+com\example\todo_task_tracker\TodoTaskTrackerApplication.class
+com\example\todo_task_tracker\controller\TaskController.class
+com\example\todo_task_tracker\model\Task.class
+com\example\todo_task_tracker\service\TaskService.class
+com\example\todo_task_tracker\repository\TaskRepository.class
