@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="st" class="org.example.Student">
+    </bean>
+    <bean id="fun" class="org.example.SpringBoot">
+    </bean>
+    <bean id="regi" class="org.example.Register">
+    </bean>
+    <bean id="lo" class="org.example.Login">
+    </bean>
+    <bean id="atte" class="org.example.Attendclass">
+    </bean>
+    <bean id="viewp" class="org.example.ViewProfile">
+    </bean>
+    <bean id="logo" class="org.example.logout">
+    </bean>
+</beans>
