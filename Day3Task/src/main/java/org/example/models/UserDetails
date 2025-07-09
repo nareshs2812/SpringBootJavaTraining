@@ -23,7 +23,6 @@ public class UserDetails {
 
     @Column(name = "password_emp",unique = true)
     int password;
-
     String gender;
     Date DateOfBirth;
     String roles;
