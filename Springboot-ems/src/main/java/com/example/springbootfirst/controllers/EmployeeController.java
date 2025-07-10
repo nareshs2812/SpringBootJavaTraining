@@ -38,15 +38,17 @@ public class EmployeeController {
 
     @PostMapping("/employee")
     public String postMethod(@RequestBody Employee employee){
-//        Employee employee = new Employee(5,"Sivagami", "Business");
         return employeeService.addEmployee(employee);
     }
     @PutMapping("/employee")
     public String putMethod(@RequestBody Employee employee){
+
         return employeeService.updateEmployee(employee);
+
     }
     @DeleteMapping("/employee/{empID}")
     public String deleteMethod(@PathVariable int empID){
+
         return employeeService.deleteEmployeeById(empID);
     }
 }
