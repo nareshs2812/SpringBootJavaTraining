@@ -52,4 +52,34 @@ public class RegisterService {
         return passwordEncoder.matches(rawPassword, user.getPassword());
     }
 
+    public String updateUser(int empId, UserDetailsDto request) {
+        Optional<RegisterDetails> optional = registerDetailsRepository.findById(empId);
+
+        if (optional.isPresent()) {
+            RegisterDetails user = optional.get();
+
+            user.setName(request.getName());
+            user.setUserName(request.getUserName());
+            user.setEmail(request.getEmail());
+
+            if (request.getPassword() != null && !request.getPassword().isEmpty()) {
+                user.setPassword(passwordEncoder.encode(request.getPassword()));
+            }
+
+            Set<Roles> roles = new HashSet<>();
+            for (String roleName : request.getRoleNames()) {
+                Roles role = rolesRepository.findByName(roleName)
+                        .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
+                roles.add(role);
+            }
+            user.setRoles(roles);
+
+            registerDetailsRepository.save(user);
+            return "User updated successfully!";
+        } else {
+            return "User with ID " + empId + " not found!";
+        }
+    }
+
+
 }

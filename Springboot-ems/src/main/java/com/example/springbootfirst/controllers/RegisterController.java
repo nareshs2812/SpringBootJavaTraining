@@ -1,14 +1,10 @@
 package com.example.springbootfirst.controllers;
 
-import com.example.springbootfirst.models.LoginDetails;
 import com.example.springbootfirst.models.UserDetailsDto;
+import com.example.springbootfirst.models.LoginDetails;
 import com.example.springbootfirst.services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth/")
@@ -32,4 +28,8 @@ public class RegisterController {
         }
     }
 
+    @PutMapping("/{id}")
+    public String updateUser(@PathVariable int id, @RequestBody UserDetailsDto request) {
+        return registerService.updateUser(id, request);
+    }
 }

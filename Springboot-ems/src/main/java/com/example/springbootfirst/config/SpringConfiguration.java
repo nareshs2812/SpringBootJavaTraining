@@ -26,7 +26,9 @@ public class SpringConfiguration {
                     .requestMatchers("/api/auth/**").permitAll()
                     .anyRequest().authenticated()
             )
-            .httpBasic(Customizer.withDefaults());
+            .formLogin(form -> form.disable())
+            .httpBasic(Customizer.withDefaults())
+            .logout(logout -> logout.permitAll());
 
     return http.build();
   }
