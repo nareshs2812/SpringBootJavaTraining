@@ -5,6 +5,9 @@ import com.example.springbootfirst.models.LoginDetails;
 import com.example.springbootfirst.services.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import com.example.springbootfirst.models.RegisterDetails;
+
 
 @RestController
 @RequestMapping("/api/auth/")
@@ -32,4 +35,10 @@ public class RegisterController {
     public String updateUser(@PathVariable int id, @RequestBody UserDetailsDto request) {
         return registerService.updateUser(id, request);
     }
+
+    @GetMapping("/role/{roleName}")
+    public List<RegisterDetails> getUsersByRole(@PathVariable String roleName) {
+        return registerService.getUsersByRole(roleName);
+    }
+
 }

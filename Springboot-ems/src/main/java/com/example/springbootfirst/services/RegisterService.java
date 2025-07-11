@@ -8,6 +8,8 @@ import com.example.springbootfirst.repository.RegisterDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.List;
+
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -53,33 +55,32 @@ public class RegisterService {
     }
 
     public String updateUser(int empId, UserDetailsDto request) {
-        Optional<RegisterDetails> optional = registerDetailsRepository.findById(empId);
-
-        if (optional.isPresent()) {
-            RegisterDetails user = optional.get();
-
-            user.setName(request.getName());
-            user.setUserName(request.getUserName());
-            user.setEmail(request.getEmail());
-
-            if (request.getPassword() != null && !request.getPassword().isEmpty()) {
-                user.setPassword(passwordEncoder.encode(request.getPassword()));
-            }
-
-            Set<Roles> roles = new HashSet<>();
-            for (String roleName : request.getRoleNames()) {
-                Roles role = rolesRepository.findByName(roleName)
-                        .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
-                roles.add(role);
-            }
-            user.setRoles(roles);
-
-            registerDetailsRepository.save(user);
-            return "User updated successfully!";
-        } else {
+        RegisterDetails existingUser = registerDetailsRepository.findById(empId)
+                .orElse(null);
+        if (existingUser == null) {
             return "User with ID " + empId + " not found!";
         }
+        existingUser.setName(request.getName());
+        existingUser.setUserName(request.getUserName());
+        existingUser.setEmail(request.getEmail());
+        if (request.getPassword() != null && !request.getPassword().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+        Set<Roles> updatedRoles = new HashSet<>();
+        for (String roleName : request.getRoleNames()) {
+            Roles role = rolesRepository.findByName(roleName)
+                    .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
+            updatedRoles.add(role);
+        }
+        existingUser.setRoles(updatedRoles);
+        registerDetailsRepository.save(existingUser);
+        return "User updated successfully!";
     }
+
+    public List<RegisterDetails> getUsersByRole(String roleName) {
+        return registerDetailsRepository.findByRoleName(roleName);
+    }
+
 
 
 }

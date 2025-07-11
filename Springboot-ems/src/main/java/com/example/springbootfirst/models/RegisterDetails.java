@@ -9,21 +9,26 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="user_details")
+@Table(name = "user_details")
 public class RegisterDetails {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int empId;
+
   private String name;
-  @Column(name = "user_name")
+
+  @Column(name = "user_name", nullable = false, unique = true)
   private String userName;
+
   private String email;
   private String password;
-  @Column(name = "user_name" , nullable = false,unique = true)
+
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  @JoinTable(name = "user_roles",
-    joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "empId"),
-          inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName = "roleId")
+  @JoinTable(
+          name = "user_roles",
+          joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "empId"),
+          inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "roleId")
   )
   private Set<Roles> roles;
 }
