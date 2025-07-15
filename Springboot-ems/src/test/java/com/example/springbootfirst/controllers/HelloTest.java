@@ -14,4 +14,3 @@ public class HelloTest {
         assertEquals("Hello Test",str);
     }
 }
-z
