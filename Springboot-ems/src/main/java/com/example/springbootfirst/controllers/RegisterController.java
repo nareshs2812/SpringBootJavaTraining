@@ -11,6 +11,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.LinkedHashMap;
 import java.util.List;
 import com.example.springbootfirst.models.RegisterDetails;
 import java.util.HashMap;
@@ -40,27 +42,25 @@ public class RegisterController {
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody LoginDetails request) {
         boolean isValid = registerService.authenticate(request.getUserName(), request.getPassword());
-
-        Map<String, Object> response = new HashMap<>();
-
+        Map<String, Object> response = new LinkedHashMap<>();
         if (isValid) {
-            // Authenticate via Spring Security
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUserName(), request.getPassword())
             );
-
-            // Generate token
             String token = jwtTokenProvider.generateToken(authentication);
-
-            // Return token
-            response.put("token", token);
+            String username = jwtTokenProvider.getUsernameFromToken(token);
+            String role = jwtTokenProvider.getRoleFromToken(token);
+            response.put("username", username);
             response.put("message", "Login successful");
-            return response;
+            response.put("role", role);
+            response.put("token", token);
         } else {
-            response.put("message", "Invalid credentials");
-            return response;
+            response.put("message", "Invalid Details");
         }
+        return response;
     }
+
+
 
     @PutMapping("/{id}")
     public String updateUser(@PathVariable int id, @RequestBody UserDetailsDto request) {
